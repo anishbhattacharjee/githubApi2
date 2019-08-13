@@ -1,0 +1,7 @@
+.navbar{
+    background-color: #f9f4f4;
+    color: blue;
+}
+.list-group-item:hover {
+    background-color: grey;
+}

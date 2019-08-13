@@ -1,0 +1,15 @@
+body{
+    background-color: #ececec;
+}
+.list-group-item:hover {
+    background-color: rgb(222, 218, 218);
+}
+img{
+    height: 30px;
+    border-radius: 50%;
+    margin: 7px;
+}
+
+.list-group-item{
+    text-transform: capitalize;
+}

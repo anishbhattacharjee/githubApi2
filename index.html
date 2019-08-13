@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="main.css" />
+    <style>
+  
+    </style>
+</head>
+<body>
+        <nav class="navbar navbar-light bg-dark">
+
+                <form class="form-inline">
+                  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="edValue" type="text" onInput="edValueKeyPress()">
+                  <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
+                </form>
+              </nav>
+
+             
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 ">
+                    <ul class="list-group ">
+                            <li class="list-group-item">Dashboard 1</li>
+                            <li class="list-group-item">Dashboard 2</li>
+                            <li class="list-group-item">Dashboard 3</li>
+                            <li class="list-group-item">Dashboard 4</li>
+                            <li class="list-group-item">Dashboard 5</li>
+                          </ul>
+            </div>
+            <div class="col-md-9 bg-white">
+                    <p class="lead">User list</p>
+                <div class="row">
+                        
+                    <div class="col-md-7">
+                        <div class="row">
+                            <div class="col-md-12 d-inline" >
+                                <div class="data5 text-capitalize" id="data5">
+
+                                </div>
+                                 
+                            </div>
+
+                        </div>
+
+
+                            <ul class="list-unstyled ">
+                                    <li class="media bg-white my-1">
+                                        <div id="img1">
+
+                                        </div>
+                                      <!-- <img class="mr-3" src="..." alt="Generic placeholder image"> -->
+                                      <div class="media-body">
+                                        <div class="mt-0 mb-1"  id="myData">user name</div>
+                                       
+                                      </div>
+                                    </li>
+                                  </ul>
+
+                    </div>
+                    <div class="col-md-5">
+                            <ul class="list-group " id="repoList">
+                                    <!-- <li class="list-group-item">Repos 1</li>
+                                    <li class="list-group-item">Repos 2</li>
+                                    <li class="list-group-item">Repos 3</li>
+                                    <li class="list-group-item">Repos 4</li>
+                                    <li class="list-group-item">Repos 5</li> -->
+                                  </ul>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="main.js"></script>
+<script>
+        fetch('https://api.github.com/users')
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+               // console.log(data)
+                appendData1(data);
+            })
+            .catch(function (err) {
+                console.log('error: ' + err);
+            });
+
+            // <ul class="list-unstyled ">
+            //                         <li class="media bg-white my-1" >
+            //                           <img class="mr-3" src="..." alt="Generic placeholder image">
+            //                           <div class="media-body">
+            //                             <h5 class="mt-0 mb-1" id="myData">user name</h5>
+                                       
+            //                           </div>
+            //                         </li>
+        function appendData1(data) {
+
+            var data5 = document.getElementById("data5");
+            var data6 = document.getElementById("data6");
+            for (var i = 0; i < data.length; i++) {
+                if(data[i].login !== undefined){
+                var img = document.createElement("img");
+                img.src = data[i].avatar_url;
+                data5.appendChild(img);
+
+                var div = document.createElement("span");
+                div.innerHTML = ' ' + data[i].login + ' ' ;
+                div.style.color = '#4183c4';
+                div.setAttribute("id", data[i].login);
+                data5.appendChild(div);
+                var div = document.createElement("div");
+                //div.innerHTML = 'Name: ' + data[i].login + ' ' ;
+                data5.appendChild(div);
+
+                }
+
+                document.getElementById(data[i].login).onclick = function(e){
+                   
+               
+                // console.log(e.target.id);
+                 
+                 getRepos(e.target.id)
+}
+
+
+
+            }
+        }
+
+       function getRepos(data){
+           console.log(data);
+
+
+            fetch('https://api.github.com/users/' + data + '/repos')
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                console.log(data);
+                appendData2(data);
+            })
+            .catch(function (err) {
+                console.log('error: ' + err);
+            });
+        }
+        
+
+
+        function appendData2(data) {
+            // var repo = [];
+
+            var data7 = document.getElementById("repoList");
+            console.log(data7.childElementCount);
+
+
+            while (data7.hasChildNodes()) {
+               data7.removeChild(data7.firstChild);
+            }
+            // if(data7.childElementCount === 0){
+           
+            for (var i = 0; i < data.length; i++) {
+            
+                var li = document.createElement("li");
+                li .innerHTML = ' ' + data[i].name + ' ' ;
+                li.setAttribute("class", "list-group-item");
+                data7.appendChild(li);
+                // repo.push
+
+                }
+            // }
+
+
+           
+
+                
+
+
+            }
+        
+
+
+
+        // fetch('https://api.github.com/users/anishbhattacharjee/repos')
+        //     .then(function (response) {
+        //         return response.json();
+        //     })
+        //     .then(function (data) {
+        //         //console.log(data);
+        //         appendData(data);
+        //     })
+        //     .catch(function (err) {
+        //         console.log('error: ' + err);
+        //     });
+
+        fetch('https://api.github.com/search/users?q=anishbhattacharjee')
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+               // console.log(data);
+                appendData(data);
+            })
+            .catch(function (err) {
+                console.log('error: ' + err);
+            });
+
+        function edValueKeyPress()
+    {
+        var edValue = document.getElementById("edValue");
+        var s = edValue.value;
+    
+        var lblValue = document.getElementById("lblValue");
+        lblValue.innerText = "The text box contains: "+s;
+    
+   
+    }
+
+
+ 
+
+
+    </script>
+</body>
+</html>
