@@ -15,9 +15,11 @@
         <nav class="navbar navbar-light bg-dark">
 
                 <form class="form-inline">
-                  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="edValue" type="text" onInput="edValueKeyPress()">
-                  <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
-                </form>
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="searchInput1">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="myFunction1()"> Search</button>
+                        
+                        
+                      </form>
               </nav>
 
              
@@ -32,14 +34,24 @@
                             <li class="list-group-item">Dashboard 5</li>
                           </ul>
             </div>
-            <div class="col-md-9 bg-white">
+            <div class="col-md-9 ">
+                
+                    <form action="PayslipServlet" method="get" class="form-inline my-2">
+                            <input class="form-control mr-sm-2" type="input" name="search" placeholder="Search" id="fname">
+                            <input class ="btn" type="button" value="Submit" onClick="searchData()">
+                            
+                            
+                            
+                          </form>
+
+
                     <p class="lead">User list</p>
                 <div class="row">
                         
                     <div class="col-md-7">
                         <div class="row">
                             <div class="col-md-12 d-inline" >
-                                <div class="data5 text-capitalize" id="data5">
+                                <div class="data5 text-capitalize bg-white" id="data5">
 
                                 </div>
                                  
@@ -47,19 +59,6 @@
 
                         </div>
 
-
-                            <ul class="list-unstyled ">
-                                    <li class="media bg-white my-1">
-                                        <div id="img1">
-
-                                        </div>
-                                      <!-- <img class="mr-3" src="..." alt="Generic placeholder image"> -->
-                                      <div class="media-body">
-                                        <div class="mt-0 mb-1"  id="myData">user name</div>
-                                       
-                                      </div>
-                                    </li>
-                                  </ul>
 
                     </div>
                     <div class="col-md-5">
@@ -81,8 +80,47 @@
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<script src="main.js"></script>
+
+
+
+ 
 <script>
+// var searchdata;
+
+       function searchData() {
+          var searchdata = document.getElementById('fname').value;
+         console.log(searchdata);
+
+        
+
+            // /https://api.github.com/search/users?q=anishbhattacharjee
+            if(searchdata){
+                fetch('https://api.github.com/search/users?q=' + searchdata)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                console.log(data.items)
+                appendData1(data.items);
+            })
+            .catch(function (err) {
+                console.log('error: ' + err);
+            });
+            } else {
+
+
+                
+            }
+             
+  
+         } 
+        
+       
+
+
+
+
+
         fetch('https://api.github.com/users')
             .then(function (response) {
                 return response.json();
@@ -95,18 +133,13 @@
                 console.log('error: ' + err);
             });
 
-            // <ul class="list-unstyled ">
-            //                         <li class="media bg-white my-1" >
-            //                           <img class="mr-3" src="..." alt="Generic placeholder image">
-            //                           <div class="media-body">
-            //                             <h5 class="mt-0 mb-1" id="myData">user name</h5>
-                                       
-            //                           </div>
-            //                         </li>
         function appendData1(data) {
 
             var data5 = document.getElementById("data5");
             var data6 = document.getElementById("data6");
+            while (data5.hasChildNodes()) {
+               data5.removeChild(data5.firstChild);
+            }
             for (var i = 0; i < data.length; i++) {
                 if(data[i].login !== undefined){
                 var img = document.createElement("img");
@@ -208,7 +241,7 @@
             })
             .then(function (data) {
                // console.log(data);
-                appendData(data);
+               // appendData(data);
             })
             .catch(function (err) {
                 console.log('error: ' + err);
@@ -225,6 +258,7 @@
    
     }
 
+  
 
  
 
